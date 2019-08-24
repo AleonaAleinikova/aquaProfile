@@ -1,0 +1,160 @@
+$profileInfo-background: $blue-100;
+$profileInfo-color: $blue-700;
+
+.profileInfo {
+  position: relative;
+  width: 780px;
+  height: 240px;
+  background: $profileInfo-background;
+  border-radius: 116px;
+  padding: 30px 35px 0 335px;
+  box-sizing: border-box;
+  color: $profileInfo-color;
+
+  @include tx-media(tablet) {
+    width: 680px;
+    padding: 20px 20px 0 280px;
+  }
+
+  @include tx-media(phone) {
+    width: 260px;
+    height: auto;
+    padding: 270px 20px 85px;
+    // align-items: center;
+    text-align: center;
+  }
+
+}
+
+$profileDetails-fontSize: 14px;
+
+.profileDetails {
+  @include tx-font-size($profileDetails-fontSize, none);
+}
+
+$cardNumber-fontSize: 25px;
+
+.cardNumber {
+  @include tx-font-size($cardNumber-fontSize, none);
+  display: block;
+  line-height: 1;
+  margin: 10px 0 0;
+}
+
+$profileDescription-fontSize: 13px;
+
+.profileDescription {
+  @include tx-font-size($profileDescription-fontSize, none);
+  margin: 0;
+  line-height: 1;
+
+  @include tx-media(phone) {
+    line-height: 1.5;
+  }
+
+}
+
+.profileForm {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+
+  @include tx-media(phone) {
+    flex-direction: column;
+    width: 220px;
+    align-items: stretch;
+  }
+
+}
+
+$profileField-background: $blue-50;
+$profileField-borderColor: $blue-200;
+$profileField-fontSize: 14px;
+$profileField-color: $gray-700;
+
+.profileField {
+  @include tx-font-size($profileField-fontSize, none);
+  border-radius: 5px;
+  background: $profileField-background;
+  border: 1px solid $profileField-borderColor;
+  height: 50px;
+  margin: 0 10px 0 0;
+  line-height: 1;
+  color: $profileField-color;
+
+  @include tx-media(phone) {
+    margin: 0 0 15px;
+  }
+
+}
+
+$profileSubmit-background: $yellow;
+$profileSubmit-color: $blue-700;
+$profileSubmit-fontSize: 14px;
+
+.profileSubmit {
+  @include tx-font-size($profileSubmit-fontSize, none);
+  height: 42px;
+  padding: 16px 20px;
+  color: $profileSubmit-color;
+  background: $profileSubmit-background;
+  border-radius: 5px;
+  line-height: 1;
+
+  @include tx-media(phone) {
+    height: 50px;
+  }
+
+}
+
+$balanceInfo-background: $blue-500;
+
+.balanceInfo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  height: 100%;
+  background: $balanceInfo-background;
+  border-radius: 116px 24px 100px 116px;
+  padding: 30px 0;
+  box-sizing: border-box;
+
+  @include tx-media(tablet) {
+    width: 250px;
+  }
+
+  @include tx-media(phone) {
+    width: 100%;
+    height: 240px;
+  }
+
+}
+
+$balanceDetail-color: $white;
+$balanceDetail-fontSize: 13px;
+
+.balanceDetail {
+  @include tx-font-size($balanceDetail-fontSize, none);
+  color: $balanceDetail-color;
+}
+
+$balance-color: $yellow;
+$balance-fontSize: 96px;
+$balance-default-fontSize: 62px;
+
+.balance {
+  @include tx-font-size($balance-default-fontSize, none);
+  color: $balance-color;
+  font-weight: bold;
+
+  %font-BebasNeue-is-loaded & {
+    @extend %font-BebasNeue;
+    @include tx-font-size($balance-fontSize, none);
+    letter-spacing: -2px;
+  }
+
+}

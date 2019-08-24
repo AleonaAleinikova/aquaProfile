@@ -1,0 +1,19 @@
+$pageTitle-fontSize: 36px;
+$pageTitle-color: $blue-500;
+
+.pageTitle {
+  @include tx-font-size($pageTitle-fontSize, none);
+  color: $pageTitle-color;
+  text-transform: uppercase;
+  margin: 0 0 45px;
+
+  %font-BebasNeue-is-loaded & {
+    @extend %font-BebasNeue;
+  }
+
+  @include tx-media(phone) {
+    text-align: center;
+    margin: 0 0 30px;
+  }
+
+}

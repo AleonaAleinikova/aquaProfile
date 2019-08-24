@@ -1,0 +1,111 @@
+.footer {
+  display: flex;
+  flex-shrink: 0;
+  padding: 40px 100px;
+
+  @include tx-media(tablet) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @include tx-media(phone) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    padding: 40px 30px 15px;
+  }
+
+}
+
+$phone-fontSize: 28px;
+$phone-color: $black-500;
+$phone-borderColor: $gray-100;
+
+.phone {
+  @include tx-link($phone-color);
+  @include tx-font-size($phone-fontSize, none);
+  position: relative;
+  margin: 0 50px 0 0;
+  text-decoration: none;
+
+  &:before {
+    @include tx-pseudo;
+    top: 0;
+    bottom: 0;
+    right: -25px;
+    width: 1px;
+    background: $phone-borderColor;
+  }
+
+  @include tx-media(phone) {
+    margin: 10px 0 0;
+    
+    &:before {
+      display: none;
+    }
+
+  }
+
+}
+
+$address-fontSize: 13px;
+$address-color: $black-500;
+
+.address {
+  @include tx-font-size($address-fontSize, none);
+  margin: 0;
+  font-weight: 500;
+  color: $address-color;
+
+  @include tx-media(phone) {
+    order: -1;
+    text-align: center;
+  }
+
+}
+
+$legal-borderColor: $gray-100;
+
+.legal {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 0 0 auto;
+
+  @include tx-media(tablet) {
+    width: 100%;
+    margin: 40px 0 0;
+    text-align: center;
+    justify-content: center;
+  }
+
+  @include tx-media(phone) {
+    width: 260px;
+    padding: 20px 0;
+    margin: 20px 0 0;
+    border-top: 1px solid $legal-borderColor;
+  }
+
+}
+
+.company {
+  width: 60px;
+  height: 25px;
+  align-self: center;
+}
+
+.companyIcon {
+  width: 100%;
+  height: 100%;
+}
+
+$legalLink-fontSize: 13px;
+$legalLink-color: $gray-300;
+
+.legalLink {
+  @include tx-link($legalLink-color);
+  @include tx-font-size($legalLink-fontSize, none);
+  display: inline-block;
+  width: 85px;
+  margin: 0 0 0 45px;
+  text-decoration: none;
+}

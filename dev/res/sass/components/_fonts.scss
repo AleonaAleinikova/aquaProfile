@@ -1,0 +1,4 @@
+/* Fonts */
+
+@include tx-font-face('Roboto', roboto, $fontDefaultVariants, $fontFormats, true, true);
+@include tx-font-face('Bebas Neue', bebasneue, $fontVariants, $fontFormats, true, false);

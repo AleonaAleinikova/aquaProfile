@@ -1,0 +1,27 @@
+/* Sprites */
+
+// @include ssh-sprites;
+
+.sourceSVG {
+  position: absolute;
+  top: -1000px;
+  left: -1000px;
+}
+
+/* HDPI */
+
+// @include tx-media(hdpi) {
+
+//   @include ssh-sprites-2x;
+
+// }
+
+
+
+/* XHDPI */
+
+// @include tx-media(xhdpi) {
+
+//   @include ssh-sprites-2x;
+
+// }

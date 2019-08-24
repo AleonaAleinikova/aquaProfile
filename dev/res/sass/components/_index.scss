@@ -1,0 +1,13 @@
+.pageLogo {
+  position: absolute;
+  left: 50%;
+  top: 65px;
+  width: 37px;
+  height: 53px;
+  margin: 0 0 0 -18px;
+
+  @include tx-media(phone) {
+    top: 15px;
+  }
+
+}

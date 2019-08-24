@@ -1,0 +1,69 @@
+.header {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding: 40px 45px 0;
+  box-sizing: border-box;
+  align-items: center;
+
+  @include tx-media(phone) {
+    position: relative;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 25px 0 0;
+    margin: 0 0 -40px;
+  }
+
+}
+
+.logo {
+  margin: 0 auto 0 0;
+  width: 178px;
+  height: 36px;
+
+  @include tx-media(phone) {
+    width: 100%;
+    margin: 0 0 15px;
+    text-align: center;
+  }
+
+}
+
+.logoIcon {
+  width: 100%;
+  height: 100%;
+
+  @include tx-media(phone) {
+    width: 178px;
+    height: 36px;
+  }
+
+}
+
+$profileName-fontSize: 15px;
+$profileName-color: $black-500;
+
+.profileName {
+  @include tx-font-size($profileName-fontSize, none);
+  color: $profileName-color;
+}
+
+$logout-fontSize: 12px;
+$logout-borderColor: $blue-900;
+$logout-color: $black-500;
+
+.logout {
+  @include tx-link($logout-color);
+  @include tx-font-size($logout-fontSize, none);
+  line-height: 1;
+  padding: 10px 15px;
+  border-radius: 18px;
+  border: 1px solid $logout-borderColor;
+  text-decoration: none;
+  margin: 0 0 0 25px;
+  text-transform: uppercase;
+}

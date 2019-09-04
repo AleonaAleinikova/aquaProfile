@@ -216,7 +216,7 @@ function who() {
 
 function getString(string) {
   var numbers = '';
-  [].slice.call(string.value).forEach(function (item) {
+  [].slice.call(string.dataset.number).forEach(function (item) {
     numbers += "<span class=\"cardNumberElement\">".concat(item, "</span>");
   });
   return numbers;
@@ -226,7 +226,8 @@ function getOptions(options) {
   var result = '';
   options.forEach(function (element, index) {
     var numbers = getString(element);
-    result += "<li class=\"cardNumberItem\" data-index=\"".concat(index, "\">").concat(numbers, "</li>");
+    var className = element.hasAttribute('disabled') ? 'cardNumberItem-is-disabled' : '';
+    result += "<li class=\"cardNumberItem ".concat(className, "\" data-index=\"").concat(index, "\">").concat(numbers, "</li>");
   });
   console.log(options, result);
   return result;
@@ -237,22 +238,33 @@ function fakeSelect() {
   var fakeSelect;
   var activeCard;
   var options;
+  var balances;
+  var balanceHolder;
 
   function findElement() {
     select = document.querySelector('.card');
     fakeSelect = document.querySelector('.cardNumber');
+    balanceHolder = document.querySelector('.balance');
   }
 
   function getActiveCard() {
     activeCard = document.querySelector('.activeCard');
   }
 
+  function updateBalance(index) {
+    balanceHolder.innerHTML = "".concat(balances[index], "\u20BD");
+  }
+
   function initFakeSelect() {
     options = [].slice.call(select.options);
+    balances = options.map(function (element) {
+      return element.dataset.balance.replace(/(\d{1,3})(?=((\d{3})*)$)/g, " $1");
+    });
     var fakeOptions = getOptions(options);
     var numbers = getString(options[0]);
     var text = "<span class=\"activeCard\">".concat(numbers, "</span><a href=\"#\" class=\"cardNumberLink\">\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u043A\u0430\u0440\u0442\u0443</a><ul class=\"cardList\">") + fakeOptions + '</ul>';
     fakeSelect.innerHTML = text;
+    updateBalance(0);
   }
 
   function changeActiveCard(index) {
@@ -268,11 +280,17 @@ function fakeSelect() {
     var index = target.dataset.index;
     changeActiveCard(index);
     select.selectedIndex = index;
+    updateBalance(index);
     changeStatus();
   }
 
+  function isTargerDisabled(target) {
+    return target.classList.contains('cardNumberItem-is-disabled');
+  }
+
   function checkTarget(target) {
-    if (target.classList.contains('cardNumberItem')) changeOption(target);else changeStatus();
+    var isDisabled = isTargerDisabled(target);
+    if (target.classList.contains('cardNumberItem') && !isDisabled) changeOption(target);else if (!isDisabled) changeStatus();
   }
 
   function onClick(event) {
@@ -423,15 +441,6 @@ function who() {
   return document.querySelector('#reg');
 }
 
-function initMask() {
-  return new _input.default('#tel', {
-    mask: '+7 (###) ### - ## - ##',
-    numbered: '#',
-    empty: '_',
-    placeholder: true
-  });
-}
-
 function validateConfirm(passwordField, target) {
   var result = target.value === passwordField.value;
   if (!result) target.classList.add('field-has-error');
@@ -440,12 +449,6 @@ function validateConfirm(passwordField, target) {
 
 function validateEmail(target) {
   var result = reg.test(target.value);
-  if (!result) target.classList.add('field-has-error');
-  return result;
-}
-
-function validateName(target) {
-  var result = target.value !== '';
   if (!result) target.classList.add('field-has-error');
   return result;
 }
@@ -473,13 +476,10 @@ function disactiveteButton(element) {
 function auth() {
   var form;
   var next;
-  var isPhone;
   var isPassword;
   var isConfirm;
   var isEmail;
-  var isName;
   var isActive = true;
-  var phoneMask;
   var phoneField;
   var passwordField;
   var button;
@@ -516,8 +516,8 @@ function auth() {
   }
 
   function checkField(target) {
-    if (target.name === 'phone') isPhone = validatePhone(phoneMask, target);else if (target.name === 'password') isPassword = validatePassword(target);else if (target.name === 'password_confirmation') isConfirm = validateConfirm(passwordField, target);else if (target.name === 'email') isEmail = validateEmail(target);else if (target.name === 'name') isName = validateName(target);
-    isActive = isPhone && isPassword && isConfirm && isEmail && isName;
+    if (target.name === 'password') isPassword = validatePassword(target);else if (target.name === 'password_confirmation') isConfirm = validateConfirm(passwordField, target);else if (target.name === 'email') isEmail = validateEmail(target);
+    isActive = isPassword && isConfirm && isEmail;
   }
 
   function onSubmit(event) {
@@ -544,7 +544,6 @@ function auth() {
 
   function init() {
     if (who()) {
-      phoneMask = initMask();
       findElements();
       subscribe();
     }

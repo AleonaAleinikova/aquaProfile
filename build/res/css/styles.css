@@ -1133,6 +1133,15 @@ body {
   opacity: .6;
 }
 
+.cardNumberItem-is-disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.cardNumberItem-is-disabled:after {
+  display: none;
+}
+
 /* Fonts */
 
 @font-face {
@@ -1488,6 +1497,11 @@ body {
 
 .field:focus {
   outline: none;
+}
+
+.field:disabled {
+  background: #fff;
+  opacity: 1;
 }
 
 .fieldCard {

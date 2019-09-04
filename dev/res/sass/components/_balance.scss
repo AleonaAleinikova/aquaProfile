@@ -325,4 +325,14 @@ $cardList-borderColor: $blue-300;
 
   }
 
+  &-is-disabled {
+    cursor: not-allowed;
+    opacity: .6;
+
+    &:after {
+      display: none;
+    }
+
+  }
+
 }

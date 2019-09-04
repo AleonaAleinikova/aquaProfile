@@ -7,15 +7,6 @@ function who() {
   return document.querySelector('#reg');
 }
 
-function initMask() {
-  return new Numbered('#tel', {
-    mask: '+7 (###) ### - ## - ##',
-    numbered: '#',
-    empty: '_',
-    placeholder: true,
-  });
-}
-
 function validateConfirm(passwordField, target) {
   const result = target.value === passwordField.value;
   if (!result) target.classList.add('field-has-error');
@@ -24,12 +15,6 @@ function validateConfirm(passwordField, target) {
 
 function validateEmail(target) {
   const result = reg.test(target.value);
-  if (!result) target.classList.add('field-has-error');
-  return result;
-}
-
-function validateName(target) {
-  const result = target.value !== '';
   if (!result) target.classList.add('field-has-error');
   return result;
 }
@@ -57,13 +42,10 @@ function disactiveteButton(element) {
 export default function auth() {
   let form;
   let next;
-  let isPhone;
   let isPassword;
   let isConfirm;
   let isEmail;
-  let isName;
   let isActive = true;
-  let phoneMask;
   let phoneField;
   let passwordField;
   let button;
@@ -100,12 +82,10 @@ export default function auth() {
   }
 
   function checkField(target) {
-    if (target.name === 'phone') isPhone = validatePhone(phoneMask, target);
-    else if (target.name === 'password') isPassword = validatePassword(target);
+    if (target.name === 'password') isPassword = validatePassword(target);
     else if (target.name === 'password_confirmation') isConfirm = validateConfirm(passwordField, target);
     else if (target.name === 'email') isEmail = validateEmail(target);
-    else if (target.name === 'name') isName = validateName(target);
-    isActive = isPhone && isPassword && isConfirm && isEmail && isName;
+    isActive = isPassword && isConfirm && isEmail;
   }
 
   function onSubmit(event) {
@@ -134,7 +114,6 @@ export default function auth() {
 
   function init() {
     if (who()) {
-      phoneMask = initMask();
       findElements();
       subscribe();
     }

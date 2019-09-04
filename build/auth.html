@@ -72,44 +72,38 @@
         <path clip-rule="evenodd" d="M24.77 37.689c-.166 0-.27.098-.27.357v.39h-.492v-.353c0-.581.265-.913.776-.913s.776.332.776.913c0 1.142-1.036 1.568-1.036 2.165 0 .026 0 .052.004.078h.985v.519h-1.505v-.447c0-1.069 1.031-1.246 1.031-2.294 0-.327-.103-.415-.269-.415zm1.684 2.321c0 .259.104.357.27.357.165 0 .27-.098.27-.358v-1.962c0-.26-.105-.358-.27-.358-.166 0-.27.098-.27.358v1.962zm-.52-1.927c0-.581.279-.914.79-.914.51 0 .79.333.79.914v1.89c0 .581-.28.913-.79.913-.511 0-.79-.332-.79-.913v-1.89zm1.859-.415c.402 0 .492-.213.572-.457h.35v3.634h-.52v-2.773h-.402v-.404zm2.039 1.687v.655c0 .259.104.352.27.352.165 0 .27-.093.27-.352v-.655c0-.26-.105-.358-.27-.358-.166 0-.27.098-.27.358zm-.52-1.241c0-.612.255-.944.794-.944.511 0 .776.332.776.913v.093h-.492v-.13c0-.259-.104-.357-.27-.357-.184 0-.288.098-.288.446v.665a.493.493 0 0 1 .482-.323c.384 0 .578.297.578.832v.664c0 .58-.28.913-.79.913-.512 0-.79-.332-.79-.913v-1.86zm1.678-2.763h-8.572l.541.597h8.03v-.597zm0 7.342h-8.572l.541-.597h8.03v.597zM6.111 35.351h8.571l-.54.597h-8.03v-.597zm0 7.342h8.571l-.54-.597h-8.03v.597zm0-5.533h1.654v.534h-.56v3.202h-.534v-3.202h-.56v-.534zm3.034 2.247l-.165.341v1.148h-.535V37.16h.535v1.628l.7-1.628h.535l-.744 1.665.744 2.07h-.55l-.52-1.488zm2.79-1.329c0-.336-.107-.427-.277-.427-.17 0-.282.102-.282.369v.304h-.49v-.278c0-.597.262-.928.787-.928s.797.341.797.939v.096c0 .4-.116.65-.374.768.268.128.374.406.374.784V40c0 .598-.272.94-.797.94s-.798-.342-.798-.94v-.41h.506v.448c0 .267.107.367.277.367.17 0 .277-.09.277-.42v-.295c0-.346-.107-.474-.35-.474h-.131v-.534h.16c.2 0 .321-.096.321-.395v-.208z" fill="#ADACAC" />
       </symbol>
     </svg>
-    <header class="header">
-      <a href="#" class="logo">
-        <svg class="logoIcon">
-          <use xlink:href="#spt-logo"></use>
-        </svg>
-      </a>
-      <span class="profileName">Александр Иванов</span>
-      <a href="#" class="logout" data-url="http://private-41d3c9-aquaprofile.apiary-mock.com" data-next="/">Выйти</a>
-    </header>
     <main class="page">
-      <h1 class="pageTitle">Личный кабинет</h1>
-      <div class="profileInfo">
-        <div class="balanceInfo">
-          <span class="balanceDetail">
-            Баланс карты:
-          </span>
-          <span class="balance">
-            4 087₽
-          </span>
+      <h1 class="pageTitle">Регистрация</h1>
+      <svg class="pageLogo">
+        <use xlink:href="#spt-logoIcon"></use>
+      </svg>
+      <form action="http://private-9a0dd-aquaauth.apiary-mock.com" class="form" id="reg" data-next="/profile">
+        <input class="field" name="name" id="name">
+        <label for="name" class="fieldLabel">ФИО:</label>
+        <input class="fieldCard" name="card" id="card" value="66609">
+        <div class="cardNumberHilder">
+          <span class="cardItem">6</span>
+          <span class="cardItem">6</span>
+          <span class="cardItem">6</span>
+          <span class="cardItem">0</span>
+          <span class="cardItem">9</span>
         </div>
-        <span class="profileDetails">
-          Пополнить карту
-        </span>
-        <form action="http://private-9a0dd-aquaauth.apiary-mock.com" class="profileForm" data-next="/profile">
-          <select name="card" id="card" class="card">
-            <option value="14378"></option>
-            <option value="23612"></option>
-            <option value="37389"></option>
-          </select>
-          <div class="cardNumber">
-          </div>
-          <input type="number" id="balance" class="profileField" name="count" placeholder="Сумма к оплате">
-          <input type="submit" class="profileSubmit" value="Пополнить">
-        </form>
-        <p class="profileDescription">
-          Вы будете перенаправлены на страницу сервиса оплаты
-        </p>
-      </div>
+        <label for="card" class="fieldLabel">Карта:</label>
+        <input type="tel" class="field" id="tel" name="phone">
+        <label for="phone" class="fieldLabel">Телефон:</label>
+        <select class="fieldSelect" name="city_id" id="city">
+          <option value="121">Краснодар</option>
+          <option value="123">Москва</option>
+        </select>
+        <label for="city" class="selectLabel">Город:</label>
+        <input type="email" class="field" name="email" id="email">
+        <label for="email" class="fieldLabel">Email:</label>
+        <input type="password" class="field" name="password" id="password">
+        <label for="password" class="fieldLabel">Пароль:</label>
+        <input type="password" class="field" name="password_confirmation" id="confirm">
+        <label for="confirm" class="fieldLabel">Повторите пароль:</label>
+        <input type="submit" disabled class="submit" value="регистрация">
+      </form>
     </main>
     <footer class="footer">
       <a href="tel:+79094516016" class="phone">+7 (909) <b>451-60-16</b></a>

@@ -1,8 +1,10 @@
 import Numbered from 'input.numbered';
 import nanoajax from 'nanoajax';
 
+const reg = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+
 function who() {
-  return document.querySelector('#auth');
+  return document.querySelector('#reg');
 }
 
 function initMask() {
@@ -12,6 +14,24 @@ function initMask() {
     empty: '_',
     placeholder: true,
   });
+}
+
+function validateConfirm(passwordField, target) {
+  const result = target.value === passwordField.value;
+  if (!result) target.classList.add('field-has-error');
+  return result;
+}
+
+function validateEmail(target) {
+  const result = reg.test(target.value);
+  if (!result) target.classList.add('field-has-error');
+  return result;
+}
+
+function validateName(target) {
+  const result = target.value !== '';
+  if (!result) target.classList.add('field-has-error');
+  return result;
 }
 
 function validatePhone(phoneMask, target) {
@@ -39,16 +59,21 @@ export default function auth() {
   let next;
   let isPhone;
   let isPassword;
+  let isConfirm;
+  let isEmail;
+  let isName;
   let isActive = true;
   let phoneMask;
   let phoneField;
+  let passwordField;
   let button;
 
   function findElements() {
-    form = document.querySelector('#auth');
+    form = document.querySelector('#reg');
     ({ next } = form.dataset);
     button = document.querySelector('.submit');
     phoneField = document.getElementById('tel');
+    passwordField = document.getElementById('password');
   }
 
   function collectData() {
@@ -77,7 +102,10 @@ export default function auth() {
   function checkField(target) {
     if (target.name === 'phone') isPhone = validatePhone(phoneMask, target);
     else if (target.name === 'password') isPassword = validatePassword(target);
-    isActive = isPhone && isPassword;
+    else if (target.name === 'password_confirmation') isConfirm = validateConfirm(passwordField, target);
+    else if (target.name === 'email') isEmail = validateEmail(target);
+    else if (target.name === 'name') isName = validateName(target);
+    isActive = isPhone && isPassword && isConfirm && isEmail && isName;
   }
 
   function onSubmit(event) {

@@ -14,7 +14,7 @@ var _nanoajax = _interopRequireDefault(require("nanoajax"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function who() {
-  return document.querySelector('.login');
+  return document.querySelector('#auth');
 }
 
 function initMask() {
@@ -53,16 +53,21 @@ function auth() {
   var isPassword;
   var isActive = true;
   var phoneMask;
+  var phoneField;
   var button;
 
   function findElements() {
-    form = document.querySelector('.login');
+    form = document.querySelector('#auth');
     next = form.dataset.next;
     button = document.querySelector('.submit');
+    phoneField = document.getElementById('tel');
   }
 
   function collectData() {
-    return new FormData(form);
+    var data = new FormData(form);
+    data.delete('phone');
+    data.append('phone', phoneField.value.replace(/[^0-9]/g, ''));
+    return data;
   }
 
   function sendData(data) {
@@ -82,7 +87,7 @@ function auth() {
   }
 
   function checkField(target) {
-    if (target.name === 'tel') isPhone = validatePhone(phoneMask, target);else if (target.name === 'password') isPassword = validatePassword(target);
+    if (target.name === 'phone') isPhone = validatePhone(phoneMask, target);else if (target.name === 'password') isPassword = validatePassword(target);
     isActive = isPhone && isPassword;
   }
 
@@ -119,7 +124,7 @@ function auth() {
   init();
 }
 
-},{"input.numbered":7,"nanoajax":8}],2:[function(require,module,exports){
+},{"input.numbered":9,"nanoajax":10}],2:[function(require,module,exports){
 
 "use strict";
 
@@ -196,7 +201,104 @@ function balance() {
   init();
 }
 
-},{"nanoajax":8}],3:[function(require,module,exports){
+},{"nanoajax":10}],3:[function(require,module,exports){
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = fakeSelect;
+
+function who() {
+  return document.querySelector('.cardNumber');
+}
+
+function getString(string) {
+  var numbers = '';
+  [].slice.call(string.value).forEach(function (item) {
+    numbers += "<span class=\"cardNumberElement\">".concat(item, "</span>");
+  });
+  return numbers;
+}
+
+function getOptions(options) {
+  var result = '';
+  options.forEach(function (element, index) {
+    var numbers = getString(element);
+    result += "<li class=\"cardNumberItem\" data-index=\"".concat(index, "\">").concat(numbers, "</li>");
+  });
+  console.log(options, result);
+  return result;
+}
+
+function fakeSelect() {
+  var select;
+  var fakeSelect;
+  var activeCard;
+  var options;
+
+  function findElement() {
+    select = document.querySelector('.card');
+    fakeSelect = document.querySelector('.cardNumber');
+  }
+
+  function getActiveCard() {
+    activeCard = document.querySelector('.activeCard');
+  }
+
+  function initFakeSelect() {
+    options = [].slice.call(select.options);
+    var fakeOptions = getOptions(options);
+    var numbers = getString(options[0]);
+    var text = "<span class=\"activeCard\">".concat(numbers, "</span><a href=\"#\" class=\"cardNumberLink\">\u0421\u043C\u0435\u043D\u0438\u0442\u044C \u043A\u0430\u0440\u0442\u0443</a><ul class=\"cardList\">") + fakeOptions + '</ul>';
+    fakeSelect.innerHTML = text;
+  }
+
+  function changeActiveCard(index) {
+    var numbers = getString(options[index]);
+    activeCard.innerHTML = numbers;
+  }
+
+  function changeStatus() {
+    fakeSelect.classList.toggle('cardNumber-is-active');
+  }
+
+  function changeOption(target) {
+    var index = target.dataset.index;
+    changeActiveCard(index);
+    select.selectedIndex = index;
+    changeStatus();
+  }
+
+  function checkTarget(target) {
+    if (target.classList.contains('cardNumberItem')) changeOption(target);else changeStatus();
+  }
+
+  function onClick(event) {
+    event.preventDefault();
+    var target = event.target;
+    checkTarget(target);
+  }
+
+  function subscribe() {
+    fakeSelect.addEventListener('click', onClick);
+    fakeSelect.addEventListener('touchstart', onClick);
+  }
+
+  function init() {
+    if (who()) {
+      findElement();
+      initFakeSelect();
+      getActiveCard();
+      subscribe();
+    }
+  }
+
+  init();
+}
+
+},{}],4:[function(require,module,exports){
 
 "use strict";
 
@@ -259,7 +361,7 @@ function logout() {
   init();
 }
 
-},{"nanoajax":8}],4:[function(require,module,exports){
+},{"nanoajax":10}],5:[function(require,module,exports){
 
 "use strict";
 
@@ -300,7 +402,158 @@ function init(fontCritical, fontsRest) {
 
 ;
 
-},{"fontfaceobserver":6}],5:[function(require,module,exports){
+},{"fontfaceobserver":8}],6:[function(require,module,exports){
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = auth;
+
+var _input = _interopRequireDefault(require("input.numbered"));
+
+var _nanoajax = _interopRequireDefault(require("nanoajax"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var reg = /^(((?:[\0-\x08\x0E-\x1F!#-'\*\+\x2D\/-9=\?A-Z\\\^-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+(\.(?:[\0-\x08\x0E-\x1F!#-'\*\+\x2D\/-9=\?A-Z\\\^-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+)*)|("(?:[\0-\t\x0B\f\x0E-\u2027\u202A-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+"))@(((?:[\0-\x08\x0E-\x1F!#-'\*\+\x2D\/-9=\?A-Z\\\^-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])+\.)+(?:[\0-\x08\x0E-\x1F!#-'\*\+\x2D\/-9=\?A-Z\\\^-\x9F\xA1-\u167F\u1681-\u1FFF\u200B-\u2027\u202A-\u202E\u2030-\u205E\u2060-\u2FFF\u3001-\uD7FF\uE000-\uFEFE\uFF00-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]){2,})$/i;
+
+function who() {
+  return document.querySelector('#reg');
+}
+
+function initMask() {
+  return new _input.default('#tel', {
+    mask: '+7 (###) ### - ## - ##',
+    numbered: '#',
+    empty: '_',
+    placeholder: true
+  });
+}
+
+function validateConfirm(passwordField, target) {
+  var result = target.value === passwordField.value;
+  if (!result) target.classList.add('field-has-error');
+  return result;
+}
+
+function validateEmail(target) {
+  var result = reg.test(target.value);
+  if (!result) target.classList.add('field-has-error');
+  return result;
+}
+
+function validateName(target) {
+  var result = target.value !== '';
+  if (!result) target.classList.add('field-has-error');
+  return result;
+}
+
+function validatePhone(phoneMask, target) {
+  var result = phoneMask.validate();
+  if (result < 0) target.classList.add('field-has-error');
+  return result > 0;
+}
+
+function validatePassword(target) {
+  var result = target.value !== '';
+  if (!result) target.classList.add('field-has-error');
+  return result;
+}
+
+function activeteButton(element) {
+  element.removeAttribute('disabled');
+}
+
+function disactiveteButton(element) {
+  element.setAttribute('disabled', 'disabled');
+}
+
+function auth() {
+  var form;
+  var next;
+  var isPhone;
+  var isPassword;
+  var isConfirm;
+  var isEmail;
+  var isName;
+  var isActive = true;
+  var phoneMask;
+  var phoneField;
+  var passwordField;
+  var button;
+
+  function findElements() {
+    form = document.querySelector('#reg');
+    next = form.dataset.next;
+    button = document.querySelector('.submit');
+    phoneField = document.getElementById('tel');
+    passwordField = document.getElementById('password');
+  }
+
+  function collectData() {
+    var data = new FormData(form);
+    data.delete('phone');
+    data.append('phone', phoneField.value.replace(/[^0-9]/g, ''));
+    return data;
+  }
+
+  function sendData(data) {
+    return new Promise(function (resolve, reject) {
+      _nanoajax.default.ajax({
+        url: form.action,
+        method: 'POST',
+        body: data
+      }, function (code, response) {
+        if (code === 200) resolve();
+      });
+    });
+  }
+
+  function changeURL() {
+    window.location.pathname = "".concat(next);
+  }
+
+  function checkField(target) {
+    if (target.name === 'phone') isPhone = validatePhone(phoneMask, target);else if (target.name === 'password') isPassword = validatePassword(target);else if (target.name === 'password_confirmation') isConfirm = validateConfirm(passwordField, target);else if (target.name === 'email') isEmail = validateEmail(target);else if (target.name === 'name') isName = validateName(target);
+    isActive = isPhone && isPassword && isConfirm && isEmail && isName;
+  }
+
+  function onSubmit(event) {
+    event.preventDefault();
+    sendData(collectData()).then(changeURL);
+  }
+
+  function onFocusout(event) {
+    var target = event.target;
+    checkField(target);
+    if (isActive) activeteButton(button);else disactiveteButton(button);
+  }
+
+  function onFocus(event) {
+    var target = event.target;
+    target.classList.remove('field-has-error');
+  }
+
+  function subscribe() {
+    form.addEventListener('submit', onSubmit);
+    form.addEventListener('focusout', onFocusout);
+    form.addEventListener('focusin', onFocus);
+  }
+
+  function init() {
+    if (who()) {
+      phoneMask = initMask();
+      findElements();
+      subscribe();
+    }
+  }
+
+  init();
+}
+
+},{"input.numbered":9,"nanoajax":10}],7:[function(require,module,exports){
 
 "use strict";
 
@@ -312,14 +565,20 @@ var _balance = _interopRequireDefault(require("balance"));
 
 var _auth = _interopRequireDefault(require("auth"));
 
+var _regestration = _interopRequireDefault(require("regestration"));
+
+var _fakeSelect = _interopRequireDefault(require("fakeSelect"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _fontLoad.default)('Roboto', ['Bebas Neue']);
 (0, _logout.default)();
 (0, _balance.default)();
 (0, _auth.default)();
+(0, _regestration.default)();
+(0, _fakeSelect.default)();
 
-},{"auth":1,"balance":2,"logout":3,"patterns/fontLoad":4}],6:[function(require,module,exports){
+},{"auth":1,"balance":2,"fakeSelect":3,"logout":4,"patterns/fontLoad":5,"regestration":6}],8:[function(require,module,exports){
 /* Font Face Observer v2.1.0 - © Bram Stein. License: BSD-3-Clause */(function(){function l(a,b){document.addEventListener?a.addEventListener("scroll",b,!1):a.attachEvent("scroll",b)}function m(a){document.body?a():document.addEventListener?document.addEventListener("DOMContentLoaded",function c(){document.removeEventListener("DOMContentLoaded",c);a()}):document.attachEvent("onreadystatechange",function k(){if("interactive"==document.readyState||"complete"==document.readyState)document.detachEvent("onreadystatechange",k),a()})};function t(a){this.a=document.createElement("div");this.a.setAttribute("aria-hidden","true");this.a.appendChild(document.createTextNode(a));this.b=document.createElement("span");this.c=document.createElement("span");this.h=document.createElement("span");this.f=document.createElement("span");this.g=-1;this.b.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.c.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";
 this.f.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.h.style.cssText="display:inline-block;width:200%;height:200%;font-size:16px;max-width:none;";this.b.appendChild(this.h);this.c.appendChild(this.f);this.a.appendChild(this.b);this.a.appendChild(this.c)}
 function u(a,b){a.a.style.cssText="max-width:none;min-width:20px;min-height:20px;display:inline-block;overflow:hidden;position:absolute;width:auto;margin:0;padding:0;top:-999px;white-space:nowrap;font-synthesis:none;font:"+b+";"}function z(a){var b=a.a.offsetWidth,c=b+100;a.f.style.width=c+"px";a.c.scrollLeft=c;a.b.scrollLeft=a.b.scrollWidth+100;return a.g!==b?(a.g=b,!0):!1}function A(a,b){function c(){var a=k;z(a)&&a.a.parentNode&&b(a.g)}var k=a;l(a.b,c);l(a.c,c);z(a)};function B(a,b){var c=b||{};this.family=a;this.style=c.style||"normal";this.weight=c.weight||"normal";this.stretch=c.stretch||"normal"}var C=null,D=null,E=null,F=null;function G(){if(null===D)if(J()&&/Apple/.test(window.navigator.vendor)){var a=/AppleWebKit\/([0-9]+)(?:\.([0-9]+))(?:\.([0-9]+))/.exec(window.navigator.userAgent);D=!!a&&603>parseInt(a[1],10)}else D=!1;return D}function J(){null===F&&(F=!!document.fonts);return F}
@@ -329,7 +588,7 @@ b)}else m(function(){function v(){var b;if(b=-1!=f&&-1!=g||-1!=f&&-1!=h||-1!=g&&
 n+"ms timeout exceeded"));else{var a=document.hidden;if(!0===a||void 0===a)f=e.a.offsetWidth,g=p.a.offsetWidth,h=q.a.offsetWidth,v();r=setTimeout(I,50)}}var e=new t(k),p=new t(k),q=new t(k),f=-1,g=-1,h=-1,w=-1,x=-1,y=-1,d=document.createElement("div");d.dir="ltr";u(e,L(c,"sans-serif"));u(p,L(c,"serif"));u(q,L(c,"monospace"));d.appendChild(e.a);d.appendChild(p.a);d.appendChild(q.a);document.body.appendChild(d);w=e.a.offsetWidth;x=p.a.offsetWidth;y=q.a.offsetWidth;I();A(e,function(a){f=a;v()});u(e,
 L(c,'"'+c.family+'",sans-serif'));A(p,function(a){g=a;v()});u(p,L(c,'"'+c.family+'",serif'));A(q,function(a){h=a;v()});u(q,L(c,'"'+c.family+'",monospace'))})})};"object"===typeof module?module.exports=B:(window.FontFaceObserver=B,window.FontFaceObserver.prototype.load=B.prototype.load);}());
 
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*! numbered v1.0.6 | pavel-yagodin | MIT License | https://github.com/CSSSR/jquery.numbered */
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {
@@ -594,7 +853,7 @@ L(c,'"'+c.family+'",sans-serif'));A(p,function(a){g=a;v()});u(p,L(c,'"'+c.family
 	return Numbered;
 }));
 
-},{}],8:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (global){
 // Best place to find information on XHR features is:
 // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest
@@ -707,4 +966,4 @@ function setDefault(obj, key, value) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[5]);
+},{}]},{},[7]);

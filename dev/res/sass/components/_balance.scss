@@ -20,7 +20,6 @@ $profileInfo-color: $blue-700;
     width: 260px;
     height: auto;
     padding: 270px 20px 85px;
-    // align-items: center;
     text-align: center;
   }
 
@@ -30,15 +29,6 @@ $profileDetails-fontSize: 14px;
 
 .profileDetails {
   @include tx-font-size($profileDetails-fontSize, none);
-}
-
-$cardNumber-fontSize: 25px;
-
-.cardNumber {
-  @include tx-font-size($cardNumber-fontSize, none);
-  display: block;
-  line-height: 1;
-  margin: 10px 0 0;
 }
 
 $profileDescription-fontSize: 13px;
@@ -56,8 +46,9 @@ $profileDescription-fontSize: 13px;
 
 .profileForm {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  margin: 20px 0;
+  margin: 10px 0 20px;
 
   @include tx-media(phone) {
     flex-direction: column;
@@ -81,6 +72,8 @@ $profileField-color: $gray-700;
   margin: 0 10px 0 0;
   line-height: 1;
   color: $profileField-color;
+  width: 210px;
+  box-sizing: border-box;
 
   @include tx-media(phone) {
     margin: 0 0 15px;
@@ -155,6 +148,181 @@ $balance-default-fontSize: 62px;
     @extend %font-BebasNeue;
     @include tx-font-size($balance-fontSize, none);
     letter-spacing: -2px;
+  }
+
+}
+
+
+$card-color: $blue-900;
+$card-fontSize: 25px;
+
+%cardItem {
+  @include tx-font-size($card-fontSize, none);
+  position: relative;
+  margin: 0 0 0 35px;
+  color: $card-color;
+}
+
+.cardNumberElement {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  text-align: center;
+  line-height: 28px;
+  margin: 0 5px 0 0;
+
+  &:first-of-type {
+
+    &:before {
+      @include tx-pseudo;
+      content: '№';
+      top: 0;
+      left: -36px;
+      line-height: 1.1;
+    }
+
+  }
+
+}
+
+.card {
+  position: absolute;
+  left: -10000px;
+}
+
+.activeCard {
+  @extend %cardItem;
+}
+
+.cardNumber {
+  position: relative;
+  width: 210px;
+  height: 50px;
+
+  &-is-active {
+    @extend %cardNumber-is-active;
+  }
+
+  @include tx-media(phone) {
+    margin: 0 0 50px;
+  }
+
+}
+
+$cardNumberLink-fontSize: 14px;
+$cardNumberLink-color: $blue-500;
+
+.cardNumberLink {
+  @include tx-font-size($cardNumberLink-fontSize, none);
+  @include tx-link($cardNumberLink-color);
+  position: absolute;
+  top: 10px;
+  right: -139px;
+  line-height: 1;
+  margin: 0 0 0 30px;
+
+  &:before,
+  &:after {
+    @include tx-pseudo;
+    left: -30px;
+  }
+
+  &:before {
+    top: 1px;
+    width: 15px;
+    height: 10px;
+    border-radius: 3px;
+    border: 1px solid currentColor;
+  }
+
+  &:after {
+    top: 5px;
+    width: 17px;
+    height: 2px;
+    background: currentColor;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  @include tx-media(phone) {
+    top: 100%;
+    left: 0;
+    right: 0;
+    text-align: center;
+
+    &:before,
+    &:after {
+      left: 50%;
+      margin: 0 0 0 -75px;
+    }
+
+  }
+
+
+}
+
+$cardList-background: $white;
+$cardList-borderColor: $blue-300;
+
+.cardList {
+  position: relative;
+  z-index: 2;
+  height: 0;
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  overflow: hidden;
+  list-style: none;
+  background: $cardList-background;
+  padding: 0 5px;
+  margin: -41px -6px 0;
+  border: 1px solid $cardList-borderColor;
+  border-radius: 4px;
+  opacity: 0;
+
+  %cardNumber-is-active & {
+    height: auto;
+    opacity: 1;
+  }
+
+}
+
+.cardNumberItem {
+  @extend %cardItem;
+  position: relative;
+  z-index: 1;
+  padding: 3px 0;
+
+  &:after,
+  &:before {
+    @include tx-pseudo;
+    top: 0;
+    right: -5px;
+    left: -40px;
+    height: 100%;
+  }
+
+  &:before {
+    z-index: 5;
+  }
+
+  &:after {
+    z-index: -1;
+    background: $yellow;
+    opacity: 0;
+  }
+
+  &:hover {
+  
+    &:after {
+      opacity: .6;
+    }
+
   }
 
 }

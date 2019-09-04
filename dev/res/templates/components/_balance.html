@@ -10,10 +10,14 @@
   <span class="profileDetails">
     Пополнить карту
   </span>
-  <span class="cardNumber">
-    № 1321122
-  </span>
   <form action="http://private-9a0dd-aquaauth.apiary-mock.com" class="profileForm" data-next="/profile">
+    <select name="card" id="card" class="card">
+      <option value="14378"></option>
+      <option value="23612"></option>
+      <option value="37389"></option>
+    </select>
+    <div class="cardNumber">
+    </div>
     <input type="number" id="balance" class="profileField" name="count" placeholder="Сумма к оплате">
     <input type="submit" class="profileSubmit" value="Пополнить">
   </form>

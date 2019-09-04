@@ -1,3 +1,4 @@
+@charset 'UTF-8';
 /* Fast Touch */
 
 label,
@@ -812,14 +813,6 @@ body {
   font-size: .88rem;
 }
 
-.cardNumber {
-  display: block;
-  margin: 10px 0 0;
-  font-size: 25px;
-  font-size: 1.56rem;
-  line-height: 1;
-}
-
 .profileDescription {
   margin: 0;
   font-size: 13px;
@@ -843,7 +836,9 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin: 20px 0;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: 10px 0 20px;
 }
 
 @media only screen and (max-width: 45em) {
@@ -863,6 +858,9 @@ body {
 }
 
 .profileField {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 210px;
   height: 50px;
   border: 1px solid #cad9e3;
   border-radius: 5px;
@@ -962,6 +960,177 @@ body {
   font-size: 96px;
   font-size: 6rem;
   letter-spacing: -2px;
+}
+
+.activeCard,
+.cardNumberItem {
+  position: relative;
+  margin: 0 0 0 35px;
+  color: #0d2a72;
+  font-size: 25px;
+  font-size: 1.56rem;
+}
+
+.cardNumberElement {
+  position: relative;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  margin: 0 5px 0 0;
+  text-align: center;
+  line-height: 28px;
+}
+
+.cardNumberElement:first-of-type:before {
+  position: absolute;
+  top: 0;
+  left: -36px;
+  content: '';
+  content: '№';
+  display: block;
+  line-height: 1.1;
+}
+
+.card {
+  position: absolute;
+  left: -10000px;
+}
+
+.cardNumber {
+  position: relative;
+  width: 210px;
+  height: 50px;
+}
+
+@media only screen and (max-width: 45em) {
+
+  .cardNumber {
+    margin: 0 0 50px;
+  }
+
+
+}
+
+.cardNumberLink {
+  position: absolute;
+  top: 10px;
+  right: -139px;
+  margin: 0 0 0 30px;
+  color: #2370be;
+  font-size: 14px;
+  font-size: .88rem;
+  line-height: 1;
+}
+
+.cardNumberLink:visited,
+.cardNumberLink:hover,
+.cardNumberLink:active {
+  color: #2370be;
+}
+
+.cardNumberLink:before,
+.cardNumberLink:after {
+  position: absolute;
+  left: -30px;
+  content: '';
+  display: block;
+}
+
+.cardNumberLink:before {
+  top: 1px;
+  width: 15px;
+  height: 10px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+}
+
+.cardNumberLink:after {
+  top: 5px;
+  width: 17px;
+  height: 2px;
+  background: currentColor;
+}
+
+.cardNumberLink:focus {
+  outline: none;
+}
+
+@media only screen and (max-width: 45em) {
+
+  .cardNumberLink {
+    top: 100%;
+    right: 0;
+    left: 0;
+    text-align: center;
+  }
+
+  .cardNumberLink:before,
+  .cardNumberLink:after {
+    left: 50%;
+    margin: 0 0 0 -75px;
+  }
+
+
+}
+
+.cardList {
+  position: relative;
+  z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  overflow: hidden;
+  width: auto;
+  height: 0;
+  padding: 0 5px;
+  border: 1px solid #b7cfdf;
+  border-radius: 4px;
+  margin: -41px -6px 0;
+  background: #fff;
+  list-style: none;
+  opacity: 0;
+}
+
+.cardNumber-is-active .cardList {
+  height: auto;
+  opacity: 1;
+}
+
+.cardNumberItem {
+  position: relative;
+  z-index: 1;
+  padding: 3px 0;
+}
+
+.cardNumberItem:after,
+.cardNumberItem:before {
+  position: absolute;
+  top: 0;
+  right: -5px;
+  left: -40px;
+  content: '';
+  display: block;
+  height: 100%;
+}
+
+.cardNumberItem:before {
+  z-index: 5;
+}
+
+.cardNumberItem:after {
+  z-index: -1;
+  background: #fac76e;
+  opacity: 0;
+}
+
+.cardNumberItem:hover:after {
+  opacity: .6;
 }
 
 /* Fonts */
@@ -1273,7 +1442,7 @@ body {
 
 }
 
-.login {
+.form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1292,7 +1461,7 @@ body {
 
 @media only screen and (max-width: 45em) {
 
-  .login {
+  .form {
     width: 280px;
     padding: 70px 30px 55px;
   }
@@ -1300,11 +1469,13 @@ body {
 
 }
 
-.field {
+.field,
+.fieldSelect {
   height: 33px;
   border: 1px solid #b7cfdf;
   border-radius: 2px;
   margin: 0 0 25px;
+  color: #b1b1b1;
   font-weight: 300;
   font-size: 12px;
   font-size: .75rem;
@@ -1319,12 +1490,75 @@ body {
   outline: none;
 }
 
-.fieldLabel {
+.fieldCard {
+  display: none;
+}
+
+.cardNumberHilder {
+  margin: 0 0 25px;
+}
+
+.cardItem {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #b7cfdf;
+  border-radius: 3px;
+  margin: 0 5px 0 0;
+  color: #b1b1b1;
+  background: #fff;
+  font-size: 25px;
+  font-size: 1.56rem;
+  text-align: center;
+  line-height: 25px;
+}
+
+.fieldSelect {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+  padding: 0 0 0 15px;
+}
+
+.fieldSelect:focus {
+  outline: none;
+}
+
+.fieldLabel,
+.selectLabel {
   margin: -85px 0 85px;
   color: #111;
   font-size: 12px;
   font-size: .75rem;
   text-transform: uppercase;
+}
+
+.selectLabel {
+  position: relative;
+}
+
+.selectLabel:before,
+.selectLabel:after {
+  position: absolute;
+  content: '';
+  display: block;
+}
+
+.selectLabel:before {
+  top: 25px;
+  right: 35px;
+  width: 1px;
+  height: 35px;
+  background: #b7cfdf;
+}
+
+.selectLabel:after {
+  top: 40px;
+  right: 12px;
+  border: 6px solid transparent;
+  border-top: 6px solid #2370be;
 }
 
 .fieldCheck {

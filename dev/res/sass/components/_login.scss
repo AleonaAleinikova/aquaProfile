@@ -1,15 +1,15 @@
-$login-background: $blue-100;
-$login-borderColor: $blue-500;
+$form-background: $blue-100;
+$form-borderColor: $blue-500;
 
-.login {
+.form {
   display: flex;
   flex-direction: column;
   padding: 70px 40px 55px;
   border-radius: 24px;
   width: 300px;
   box-sizing: border-box;
-  background: $login-background;
-  border: 1px solid $login-borderColor;
+  background: $form-background;
+  border: 1px solid $form-borderColor;
 
   @include tx-media(phone) {
     width: 280px;
@@ -19,16 +19,23 @@ $login-borderColor: $blue-500;
 }
 
 $field-borderColor: $blue-300;
+$field-color: $gray-300;
 $field-fontSize: 12px;
 $field-errorColor: $red;
 
-.field {
+%field {
   @include tx-font-size($field-fontSize, none);
   height: 33px;
   margin: 0 0 25px;
   border: 1px solid $field-borderColor;
   border-radius: 2px;
   font-weight: 300;
+  color: $field-color;
+}
+
+
+.field {
+  @extend %field;
 
   &-has-error {
     color: $field-errorColor;
@@ -41,14 +48,85 @@ $field-errorColor: $red;
 
 }
 
+.fieldCard {
+  display: none;
+}
+
+.cardNumberHilder {
+  margin: 0 0 25px;
+}
+
+$cardItem-fontSize: 25px;
+$cardItem-color: $gray-300;
+$cardItem-background: $white;
+
+.cardItem {
+  @include tx-font-size($cardItem-fontSize, none);
+  display: inline-block;
+  border-radius: 3px;
+  border: 1px solid $field-borderColor;
+  color: $cardItem-color;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  background: $cardItem-background;
+  margin: 0 5px 0 0;
+}
+
+.fieldSelect {
+  @extend %field;
+  padding: 0 0 0 15px;
+  box-sizing: content-box;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:focus {
+    outline: none;
+  }
+
+}
+
 $fieldLabel-fontSize: 12px;
 $fieldLabel-color: $black-500;
 
-.fieldLabel {
+%label {
   @include tx-font-size($fieldLabel-fontSize, none);
   margin: -85px 0 85px;
   text-transform: uppercase;
   color: $fieldLabel-color;
+}
+
+.fieldLabel {
+  @extend %label;
+}
+
+$selectLabelArrow-color: $blue-500;
+
+.selectLabel {
+  @extend %label;
+  position: relative;
+
+  &:before,
+  &:after {
+    @include tx-pseudo;
+  }
+
+  &:before {
+    top: 25px;
+    right: 35px;
+    height: 35px;
+    width: 1px;
+    background: $field-borderColor;
+  }
+
+  &:after {
+    top: 40px;
+    right: 12px;
+    border: 6px solid transparent;
+    border-top: 6px solid $selectLabelArrow-color;
+  }
+
 }
 
 .fieldCheck {

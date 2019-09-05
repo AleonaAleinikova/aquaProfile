@@ -47,7 +47,7 @@ export default function fakeSelect() {
 
   function initFakeSelect() {
     options = [].slice.call(select.options);
-    balances = options.map(element => element.dataset.balance.replace(/(\d{1,3})(?=((\d{3})*)$)/g, " $1"));
+    balances = options.map(element => element.dataset.balance.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 '));
     const fakeOptions = getOptions(options);
     const numbers = getString(options[0]);
     const text = `<span class="activeCard">${numbers}</span><a href="#" class="cardNumberLink">Сменить карту</a><ul class="cardList">` + fakeOptions + '</ul>';

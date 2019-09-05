@@ -23,7 +23,7 @@ function validatePhone(phoneMask, target) {
 }
 
 function validatePassword(target) {
-  const result = target.value !== '';
+  const result = target.value.length >= 8;
   if (!result) target.classList.add('field-has-error');
   return result;
 }
@@ -63,8 +63,15 @@ export default function auth() {
   }
 
   function showError(response) {
-    const { message } = JSON.parse(response);
-    errorMessage.innerHTML = message ? message : DEFAULT_TEXT;
+    let message = '';
+    const { errors } = JSON.parse(response);
+    if (errors) {
+      const count = Object.keys(errors);
+      count.forEach(index => {
+        message += `${errors[index]} `;
+      });
+    }
+    errorMessage.innerHTML = message !== '' ? message : DEFAULT_TEXT;
     errorMessage.classList.add('errorMessage-is-active');
   }
 

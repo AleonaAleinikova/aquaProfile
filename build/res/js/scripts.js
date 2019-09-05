@@ -35,7 +35,7 @@ function validatePhone(phoneMask, target) {
 }
 
 function validatePassword(target) {
-  var result = target.value !== '';
+  var result = target.value.length >= 8;
   if (!result) target.classList.add('field-has-error');
   return result;
 }
@@ -75,10 +75,19 @@ function auth() {
   }
 
   function showError(response) {
-    var _JSON$parse = JSON.parse(response),
-        message = _JSON$parse.message;
+    var message = '';
 
-    errorMessage.innerHTML = message ? message : DEFAULT_TEXT;
+    var _JSON$parse = JSON.parse(response),
+        errors = _JSON$parse.errors;
+
+    if (errors) {
+      var count = Object.keys(errors);
+      count.forEach(function (index) {
+        message += "".concat(errors[index], " ");
+      });
+    }
+
+    errorMessage.innerHTML = message !== '' ? message : DEFAULT_TEXT;
     errorMessage.classList.add('errorMessage-is-active');
   }
 
@@ -270,7 +279,7 @@ function fakeSelect() {
   function initFakeSelect() {
     options = [].slice.call(select.options);
     balances = options.map(function (element) {
-      return element.dataset.balance.replace(/(\d{1,3})(?=((\d{3})*)$)/g, " $1");
+      return element.dataset.balance.replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
     });
     var fakeOptions = getOptions(options);
     var numbers = getString(options[0]);
@@ -472,7 +481,7 @@ function validatePhone(phoneMask, target) {
 }
 
 function validatePassword(target) {
-  var result = target.value !== '';
+  var result = target.value.length >= 8;
   if (!result) target.classList.add('field-has-error');
   return result;
 }
@@ -514,10 +523,19 @@ function auth() {
   }
 
   function showError(response) {
-    var _JSON$parse = JSON.parse(response),
-        message = _JSON$parse.message;
+    var message = '';
 
-    errorMessage.innerHTML = message ? message : DEFAULT_TEXT;
+    var _JSON$parse = JSON.parse(response),
+        errors = _JSON$parse.errors;
+
+    if (errors) {
+      var count = Object.keys(errors);
+      count.forEach(function (index) {
+        message += "".concat(errors[index], " ");
+      });
+    }
+
+    errorMessage.innerHTML = message !== '' ? message : DEFAULT_TEXT;
     errorMessage.classList.add('errorMessage-is-active');
   }
 

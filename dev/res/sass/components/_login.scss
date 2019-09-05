@@ -2,6 +2,7 @@ $form-background: $blue-100;
 $form-borderColor: $blue-500;
 
 .form {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 70px 40px 55px;
@@ -204,6 +205,31 @@ $submit-color: $blue-700;
 
   &:disabled {
     opacity: .5;
+  }
+
+}
+
+$errorMessage-background: $white;
+$errorMessage-borderColor: $red;
+$errorMessage-fontSize: 12px;
+
+.errorMessage {
+  @include tx-font-size($errorMessage-fontSize, none);
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 200px;
+  box-sizing: border-box;
+  padding: 15px;
+  margin: -35px 0 0 -100px;
+  background: $errorMessage-background;
+  border: 1px solid $errorMessage-borderColor;
+  border-radius: 2px;
+  opacity: 0;
+  font-style: italic;
+
+  &-is-active {
+    opacity: 1;
   }
 
 }

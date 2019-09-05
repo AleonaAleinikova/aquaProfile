@@ -12,16 +12,15 @@ function checkValue(input) {
 export default function balance() {
   let form;
   let field;
-  let next;
 
   function findElements() {
     form = document.querySelector('.profileForm');
     field = document.querySelector('#balance');
-    ({ next } = form.dataset);
   }
 
-  function changeURL() {
-    window.location.pathname = `${next}`;
+  function changeURL(response) {
+    const result = JSON.parse(response);
+    window.location = `${result.confirmation_url}`;
   }
 
   function collectData() {
@@ -35,7 +34,7 @@ export default function balance() {
         method: 'POST',
         body: data,
       }, (code, response) => {
-        if (code === 200) resolve();
+        if (code === 200) resolve(response);
       });
     });
   }

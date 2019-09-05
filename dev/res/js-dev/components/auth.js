@@ -1,6 +1,8 @@
 import Numbered from 'input.numbered';
 import nanoajax from 'nanoajax';
 
+const DEFAULT_TEXT = 'Что-то пошло не так, попробуйте еще раз.';
+
 function who() {
   return document.querySelector('#auth');
 }
@@ -43,12 +45,14 @@ export default function auth() {
   let phoneMask;
   let phoneField;
   let button;
+  let errorMessage;
 
   function findElements() {
     form = document.querySelector('#auth');
     ({ next } = form.dataset);
     button = document.querySelector('.submit');
     phoneField = document.getElementById('tel');
+    errorMessage = document.querySelector('.errorMessage');
   }
 
   function collectData() {
@@ -56,6 +60,12 @@ export default function auth() {
     data.delete('phone');
     data.append('phone', phoneField.value.replace(/[^0-9]/g, ''));
     return data;
+  }
+
+  function showError(response) {
+    const { message } = JSON.parse(response);
+    errorMessage.innerHTML = message ? message : DEFAULT_TEXT;
+    errorMessage.classList.add('errorMessage-is-active');
   }
 
   function sendData(data) {
@@ -66,6 +76,7 @@ export default function auth() {
         body: data,
       }, (code, response) => {
         if (code === 200) resolve();
+        else showError(response);
       });
     });
   }
@@ -96,6 +107,7 @@ export default function auth() {
   function onFocus(event) {
     const { target } = event;
     target.classList.remove('field-has-error');
+    errorMessage.classList.remove('errorMessage-is-active');
   }
 
   function subscribe() {

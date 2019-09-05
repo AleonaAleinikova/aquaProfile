@@ -13,6 +13,8 @@ var _nanoajax = _interopRequireDefault(require("nanoajax"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var DEFAULT_TEXT = 'Что-то пошло не так, попробуйте еще раз.';
+
 function who() {
   return document.querySelector('#auth');
 }
@@ -55,12 +57,14 @@ function auth() {
   var phoneMask;
   var phoneField;
   var button;
+  var errorMessage;
 
   function findElements() {
     form = document.querySelector('#auth');
     next = form.dataset.next;
     button = document.querySelector('.submit');
     phoneField = document.getElementById('tel');
+    errorMessage = document.querySelector('.errorMessage');
   }
 
   function collectData() {
@@ -70,6 +74,14 @@ function auth() {
     return data;
   }
 
+  function showError(response) {
+    var _JSON$parse = JSON.parse(response),
+        message = _JSON$parse.message;
+
+    errorMessage.innerHTML = message ? message : DEFAULT_TEXT;
+    errorMessage.classList.add('errorMessage-is-active');
+  }
+
   function sendData(data) {
     return new Promise(function (resolve, reject) {
       _nanoajax.default.ajax({
@@ -77,7 +89,7 @@ function auth() {
         method: 'POST',
         body: data
       }, function (code, response) {
-        if (code === 200) resolve();
+        if (code === 200) resolve();else showError(response);
       });
     });
   }
@@ -105,6 +117,7 @@ function auth() {
   function onFocus(event) {
     var target = event.target;
     target.classList.remove('field-has-error');
+    errorMessage.classList.remove('errorMessage-is-active');
   }
 
   function subscribe() {
@@ -149,16 +162,15 @@ function checkValue(input) {
 function balance() {
   var form;
   var field;
-  var next;
 
   function findElements() {
     form = document.querySelector('.profileForm');
     field = document.querySelector('#balance');
-    next = form.dataset.next;
   }
 
-  function changeURL() {
-    window.location.pathname = "".concat(next);
+  function changeURL(response) {
+    var result = JSON.parse(response);
+    window.location = "".concat(result.confirmation_url);
   }
 
   function collectData() {
@@ -172,7 +184,7 @@ function balance() {
         method: 'POST',
         body: data
       }, function (code, response) {
-        if (code === 200) resolve();
+        if (code === 200) resolve(response);
       });
     });
   }
@@ -483,6 +495,7 @@ function auth() {
   var phoneField;
   var passwordField;
   var button;
+  var errorMessage;
 
   function findElements() {
     form = document.querySelector('#reg');
@@ -490,6 +503,7 @@ function auth() {
     button = document.querySelector('.submit');
     phoneField = document.getElementById('tel');
     passwordField = document.getElementById('password');
+    errorMessage = document.querySelector('.errorMessage');
   }
 
   function collectData() {
@@ -499,6 +513,14 @@ function auth() {
     return data;
   }
 
+  function showError(response) {
+    var _JSON$parse = JSON.parse(response),
+        message = _JSON$parse.message;
+
+    errorMessage.innerHTML = message ? message : DEFAULT_TEXT;
+    errorMessage.classList.add('errorMessage-is-active');
+  }
+
   function sendData(data) {
     return new Promise(function (resolve, reject) {
       _nanoajax.default.ajax({
@@ -506,7 +528,7 @@ function auth() {
         method: 'POST',
         body: data
       }, function (code, response) {
-        if (code === 200) resolve();
+        if (code === 200) resolve();else showError(response);
       });
     });
   }
@@ -534,6 +556,7 @@ function auth() {
   function onFocus(event) {
     var target = event.target;
     target.classList.remove('field-has-error');
+    errorMessage.classList.remove('errorMessage-is-active');
   }
 
   function subscribe() {

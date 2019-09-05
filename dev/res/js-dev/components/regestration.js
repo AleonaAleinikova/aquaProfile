@@ -49,6 +49,7 @@ export default function auth() {
   let phoneField;
   let passwordField;
   let button;
+  let errorMessage;
 
   function findElements() {
     form = document.querySelector('#reg');
@@ -56,6 +57,7 @@ export default function auth() {
     button = document.querySelector('.submit');
     phoneField = document.getElementById('tel');
     passwordField = document.getElementById('password');
+    errorMessage = document.querySelector('.errorMessage');
   }
 
   function collectData() {
@@ -63,6 +65,12 @@ export default function auth() {
     data.delete('phone');
     data.append('phone', phoneField.value.replace(/[^0-9]/g, ''));
     return data;
+  }
+
+  function showError(response) {
+    const { message } = JSON.parse(response);
+    errorMessage.innerHTML = message ? message : DEFAULT_TEXT;
+    errorMessage.classList.add('errorMessage-is-active');
   }
 
   function sendData(data) {
@@ -73,6 +81,7 @@ export default function auth() {
         body: data,
       }, (code, response) => {
         if (code === 200) resolve();
+        else showError(response);
       });
     });
   }
@@ -104,6 +113,7 @@ export default function auth() {
   function onFocus(event) {
     const { target } = event;
     target.classList.remove('field-has-error');
+    errorMessage.classList.remove('errorMessage-is-active');
   }
 
   function subscribe() {

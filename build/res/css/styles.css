@@ -1142,6 +1142,29 @@ body {
   display: none;
 }
 
+.successMessage {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 630px;
+  padding: 15px;
+  border-radius: 35px;
+  margin: -30px 0 30px;
+  color: #0d2a72;
+  background: rgba(250, 199, 110, .4);
+  text-align: center;
+  letter-spacing: -.3px;
+}
+
+@media only screen and (max-width: 45em) {
+
+  .successMessage {
+    width: auto;
+    margin: -20px 20px 30px;
+  }
+
+
+}
+
 /* Fonts */
 
 @font-face {
@@ -1452,6 +1475,7 @@ body {
 }
 
 .form {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1631,6 +1655,28 @@ body {
 
 .submit:disabled {
   opacity: .5;
+}
+
+.errorMessage {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 200px;
+  padding: 15px;
+  border: 1px solid #ff1600;
+  border-radius: 2px;
+  margin: -35px 0 0 -100px;
+  background: #fff;
+  font-style: italic;
+  font-size: 12px;
+  font-size: .75rem;
+  opacity: 0;
+}
+
+.errorMessage-is-active {
+  opacity: 1;
 }
 
 .page {
